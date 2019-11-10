@@ -59,12 +59,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo('App\Role');
     }
 
-    public function duty()
+    public function duties()
     {
         return $this->hasMany('App\TaskFor');
     }
 
-    public function log()
+    public function logs()
     {
         return $this->hasMany('App\LogActivity');
     }
