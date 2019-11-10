@@ -44,6 +44,7 @@ class AuthControllerJWT extends Controller
         $user->name = $req->name;
         $user->password = Hash::make($req->password);
         $user->email = $req->email;
+        $user->role_id = 2;
         
         if($user->save()) {
             return response()->json([
