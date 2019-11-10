@@ -23,6 +23,6 @@ Route::post('register', 'AuthControllerJWT@register');
 
 Route::group(['middleware' => ['auth:api']], function () {
     Route::post('me', 'AuthControllerJWT@me');
-    Route::post('logout', 'AuthControllerJWT@me');
-    Route::post('refresh', 'AuthControllerJWT@me');
+    Route::post('logout', 'AuthControllerJWT@logout');
+    Route::post('refresh', 'AuthControllerJWT@refresh');
 });
