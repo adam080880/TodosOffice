@@ -30,7 +30,7 @@ class AuthControllerJWT extends Controller
 
     public function me()
     {
-        return reponse()->json($this->guard())->user();
+        return reponse()->json($this->guard()->user());
     }
 
     public function logout()
