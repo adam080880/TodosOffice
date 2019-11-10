@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use App\User;
 
@@ -23,14 +24,47 @@ class AuthControllerJWT extends Controller
         }
     }
 
-    public function register()
-    {
+    public function register(Request $req)
+    {        
+        $validated = Validator::make($req->all(), [
+            'email' => 'required|unique:users|min:8|max:190|email',
+            'name' => 'required|min:5|max:190',
+            'password' => 'min:8|required'
+        ]);  
 
+        if($validated->fails()) {
+            return response()->json([
+                'data' => $req->all(),
+                'errors' => $validated->errors(),
+                'status' => false
+            ], 400);
+        }
+
+        $user = new User;
+        $user->name = $req->name;
+        $user->password = Hash::make($req->password);
+        $user->email = $req->email;
+        
+        if($user->save()) {
+            return response()->json([
+                'data' => $user,
+                'errors' => [],
+                'status' => true
+            ], 200);
+        } else {
+            return response()->json([
+                'data' => $user,
+                'errors' => [
+                    'main' => 'Error Internal Server'
+                ],
+                'status' => false
+            ], 500);
+        }
     }
 
     public function me()
     {
-        return reponse()->json($this->guard()->user());
+        return response()->json($this->guard()->user());
     }
 
     public function logout()
