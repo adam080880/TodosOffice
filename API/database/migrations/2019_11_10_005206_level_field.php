@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLevelOptionsTable extends Migration
+class LevelField extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateLevelOptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('level_options', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title');
-            $table->integer('minimal_points');
-            $table->text('image_url');
-            $table->timestamps();
+        Schema::table('levels', function(Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
         });
     }
 
@@ -29,6 +27,8 @@ class CreateLevelOptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('level_options');
+        Schema::table('levels', function (Blueprint $table) {
+            $table->dropForeign('user_id');
+        });
     }
 }
