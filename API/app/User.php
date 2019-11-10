@@ -48,4 +48,24 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function level()
+    {
+        return $this->hasOne('App\Level');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo('App\Role');
+    }
+
+    public function duty()
+    {
+        return $this->hasMany('App\TaskFor');
+    }
+
+    public function log()
+    {
+        return $this->hasMany('App\LogActivity');
+    }
 }
