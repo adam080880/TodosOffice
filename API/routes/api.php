@@ -18,11 +18,25 @@ use Illuminate\Http\Request;
 // });
 
 // Auth
-Route::post('login', 'AuthControllerJWT@login');
-Route::post('register', 'AuthControllerJWT@register');
+Route::group(['middleware' => ['cors']], function () {
 
-Route::group(['middleware' => ['auth:api']], function () {
-    Route::post('me', 'AuthControllerJWT@me');
-    Route::post('logout', 'AuthControllerJWT@logout');
-    Route::post('refresh', 'AuthControllerJWT@refresh');
+    Route::post('login', 'AuthControllerJWT@login');
+    Route::post('register', 'AuthControllerJWT@register');
+
+    Route::get('resFixErrorLaravelBug', function() {
+        return response()->json([
+            'errors' => [
+                'main' => 'Unauthorized'
+            ],
+            'status' => false,
+            'data' => []
+        ], 401);
+    })->name('login');
+
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::post('me', 'AuthControllerJWT@me');
+        Route::post('logout', 'AuthControllerJWT@logout');
+        Route::post('refresh', 'AuthControllerJWT@refresh');
+    });
+    
 });
