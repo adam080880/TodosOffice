@@ -48,8 +48,8 @@ Route::group(['middleware' => ['cors']], function () {
 
         // TaskFor CRUD
         Route::post('duty', 'TaskForController@post')->middleware('permission:13'); //for admin
-        Route::post('duty/toggle/{id}', 'TaskForController@toggleActive')->middleware('permission:16'); //for admin
-        Route::post('duty/finish/{id}', 'TaskController@finish'); //for users        
+        Route::delete('duty/delete/{id}', 'TaskForController@delete')->middleware('permission:14'); //for admin
+        Route::post('duty/finish/{id}', 'TaskForController@finish'); //for users        
 
         
         

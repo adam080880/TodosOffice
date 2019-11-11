@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\TaskFor;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class TaskForController extends Controller
 {
@@ -65,15 +66,11 @@ class TaskForController extends Controller
 
             $taskFor = TaskFor::findOrFail($id);
 
-            if(!$taskFor->active) {
-                throw new \Exception("Task is not active");
+            if(!$taskFor->user->id == Auth::guard()->user()->id) {
+                throw new \Exception("Unknown User ");
             }
 
-            if(!$taskFor->user->id != Auth::guard()->user()->id) {
-                throw new \Exception("Unknown User");
-            }
-
-            $taskFor->finish = $taskFor->finish;
+            $taskFor->finished = 1;
             $taskFor->save();
 
             $this->json['data'] = $taskFor;
@@ -96,15 +93,18 @@ class TaskForController extends Controller
     }
 
     // For Admin
-    public function toggleActive($id)
+    public function delete($id)
     {
         try {
 
-            $taskFor = TaskFor::findOrFail($id);
-            $taskFor->active = !$taskFor->active;
-            $taskFor->save();
+            if(!$taskFor = TaskFor::findOrFail($id)) {
+                throw new \Exception("Not Found Item");
+            }
+            $taskFor->delete();
 
-            $this->json['data'] = $taskFor;
+            $this->json['data'] = [
+                'id' => $id
+            ];
             $this->json['status'] = true;
 
             $code = 200;
