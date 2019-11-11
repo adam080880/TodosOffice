@@ -63,8 +63,7 @@ class TaskController extends Controller
             $code = 500;
 
         }
-
-        $this->json['status'] = true;
+        
         return response()->json($this->json, $code);
     }
 
