@@ -16,11 +16,12 @@ class permission
      * @return mixed
      */
     public function handle($request, Closure $next, $param)
-    {
+    {                
         $user = Auth::guard()->user();        
 
-        if(count($permission = $user->role->permissions->where('feature_id', $param)) == 1) {
-            if($permission[0]->active == 1) {
+        $permission = $user->role->permissions->find($param);
+        if($permission) {
+            if($permission->active == 1) {
                 return $next($request);
             }
         }
