@@ -52,11 +52,11 @@ Route::group(['middleware' => ['cors']], function () {
         Route::post('duty/finish/{id}', 'TaskForController@finish'); //for users        
 
         // Role CRUD
-        Route::get('role', 'RoleController@get');
-        Route::get('role/{id}', 'RoleController@find');
-        Route::post('role', 'RoleController@post');
-        Route::put('role/{id}', 'RoleController@put');
-        Route::delete('role/{id}', 'RoleController@delete');
+        Route::get('role', 'RoleController@get')->middleware('permission:7');
+        Route::get('role/{id}', 'RoleController@find')->middleware('permission:7');
+        Route::post('role', 'RoleController@post')->middleware('permission:5');
+        Route::put('role/{id}', 'RoleController@put')->middleware('permission:8');
+        Route::delete('role/{id}', 'RoleController@delete')->middleware('permission:6');
 
         
         
