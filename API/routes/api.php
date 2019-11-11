@@ -51,6 +51,13 @@ Route::group(['middleware' => ['cors']], function () {
         Route::delete('duty/delete/{id}', 'TaskForController@delete')->middleware('permission:14'); //for admin
         Route::post('duty/finish/{id}', 'TaskForController@finish'); //for users        
 
+        // Role CRUD
+        Route::get('role', 'RoleController@get');
+        Route::get('role/{id}', 'RoleController@find');
+        Route::post('role', 'RoleController@post');
+        Route::put('role/{id}', 'RoleController@put');
+        Route::delete('role/{id}', 'RoleController@delete');
+
         
         
     });
