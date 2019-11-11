@@ -60,11 +60,12 @@ class PermissionController extends Controller
     {
         try {
 
-            if($id == 1) {
+            $permission = Permission::findOrFail($id);
+
+            if($permission->role_id == 1) {
                 throw new \Exception("Restricted id [$id]");
             }
 
-            $permission = Permission::findOrFail($id);
             $permission->active = !$permission->active;
             $permission->save();
 
