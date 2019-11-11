@@ -19,9 +19,9 @@ class permission
     {                
         $user = Auth::guard()->user();        
 
-        $permission = $user->role->permissions->find($param);
-        if($permission) {
-            if($permission->active == 1) {
+        $permission = $user->role->permissions->where('feature_id', $param);
+        foreach($permission as $res) {
+            if($res->active == 1) {
                 return $next($request);
             }
         }
