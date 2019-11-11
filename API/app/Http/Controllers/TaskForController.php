@@ -63,7 +63,7 @@ class TaskForController extends Controller
     {
         try {
 
-            $taskFor = TaskFor::find($id);
+            $taskFor = TaskFor::findOrFail($id);
 
             if(!$taskFor->active) {
                 throw new \Exception("Task is not active");
@@ -100,7 +100,7 @@ class TaskForController extends Controller
     {
         try {
 
-            $taskFor = TaskFor::find($id);
+            $taskFor = TaskFor::findOrFail($id);
             $taskFor->active = !$taskFor->active;
             $taskFor->save();
 

@@ -18,7 +18,7 @@ class TaskController extends Controller
     {
         try {
 
-            $task = Task::find($id);
+            $task = Task::findOrFail($id);
             $duties = $task->duties;
             
             foreach($duties as $duty) {
@@ -129,7 +129,7 @@ class TaskController extends Controller
 
         try {
 
-            $task = Task::find($id);
+            $task = Task::findOrFail($id);
             $task->task = $req->task;
             $task->description = $req->description;
             $task->points = (int) $req->points;
@@ -158,7 +158,10 @@ class TaskController extends Controller
     {
         try {
 
-            Task::destroy($id);
+            if(!$task = Task::findOrFail($id)) {
+                throw new \Exception("Not Found Item");
+            }
+            $task->delete();
 
             $this->json['data'] = [
                 'id' => $id
