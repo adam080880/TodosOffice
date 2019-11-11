@@ -34,6 +34,7 @@ Route::group(['middleware' => ['cors']], function () {
     })->name('login');
 
     Route::group(['middleware' => ['auth:api']], function () {
+
         Route::post('me', 'AuthControllerJWT@me');
         Route::post('logout', 'AuthControllerJWT@logout');
         Route::post('refresh', 'AuthControllerJWT@refresh');
@@ -45,6 +46,12 @@ Route::group(['middleware' => ['cors']], function () {
         Route::put('task/{id}', 'TaskController@put')->middleware('permission:4');              //PUT
         Route::delete('task/{id}', 'TaskController@delete')->middleware('permission:2');        //DELETE
 
+        // TaskFor CRUD
+        Route::post('duty', 'TaskForController@post')->middleware('permission:13'); //for admin
+        Route::post('duty/toggle/{id}', 'TaskForController@toggleActive')->middleware('permission:16'); //for admin
+        Route::post('duty/finish/{id}', 'TaskController@finish'); //for users        
+
+        
         
     });
     

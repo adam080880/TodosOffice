@@ -69,6 +69,10 @@ class TaskForController extends Controller
                 throw new \Exception("Task is not active");
             }
 
+            if(!$taskFor->user->id != Auth::guard()->user()->id) {
+                throw new \Exception("Unknown User");
+            }
+
             $taskFor->finish = $taskFor->finish;
             $taskFor->save();
 
@@ -92,12 +96,12 @@ class TaskForController extends Controller
     }
 
     // For Admin
-    public function unactive($id)
+    public function toggleActive($id)
     {
         try {
 
             $taskFor = TaskFor::find($id);
-            $taskFor->active = 0;
+            $taskFor->active = !$taskFor->active;
             $taskFor->save();
 
             $this->json['data'] = $taskFor;
