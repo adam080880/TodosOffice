@@ -37,6 +37,15 @@ Route::group(['middleware' => ['cors']], function () {
         Route::post('me', 'AuthControllerJWT@me');
         Route::post('logout', 'AuthControllerJWT@logout');
         Route::post('refresh', 'AuthControllerJWT@refresh');
+
+        // Task CRUD
+        Route::get('task', 'TaskController@get')->middleware('permission:3');                   //GET
+        Route::get('task/{id}', 'TaskController@find')->middleware('permission:3');             //FIND
+        Route::post('task', 'TaskController@post')->middleware('permission:1'); //POST
+        Route::put('task/{id}', 'TaskController@put')->middleware('permission:4');              //PUT
+        Route::delete('task/{id}', 'TaskController@delete')->middleware('permission:2');        //DELETE
+
+        
     });
     
 });
