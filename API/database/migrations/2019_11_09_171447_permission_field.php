@@ -20,6 +20,7 @@ class PermissionField extends Migration
             $table->foreign('feature_id')->references('id')->on('features')
                 ->onDelete('RESTRICT')
                 ->onUpdate('CASCADE');
+            DB::statement('ALTER TABLE `TodosOffice`.`permissions` ADD UNIQUE `same_` (`role_id`, `feature_id`) USING BTREE;');
         });
     }
 
