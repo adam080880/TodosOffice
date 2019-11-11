@@ -58,7 +58,9 @@ Route::group(['middleware' => ['cors']], function () {
         Route::put('role/{id}', 'RoleController@put')->middleware('permission:8');
         Route::delete('role/{id}', 'RoleController@delete')->middleware('permission:6');
 
-        
+        // Permission CRUD
+        Route::post('permission', 'PermissionController@post');
+        Route::post('permission/toggle/{id}', 'PermissionController@toggle');
         
     });
     
