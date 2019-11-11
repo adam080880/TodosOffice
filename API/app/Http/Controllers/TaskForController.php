@@ -15,6 +15,7 @@ class TaskForController extends Controller
         'status' => true
     ];
 
+    // For Admin
     public function post(Request $req)
     {
         $validated = Validator::make($req->all(), [
@@ -43,6 +44,38 @@ class TaskForController extends Controller
 
             $code = 200;
 
+        } catch (\Exception $e) {
+
+            $this->json['errors'] = [
+                'main' => $e->getMessage()
+            ];                        
+            $this->json['status'] = false;
+
+            $code = 400;
+
+        }
+
+        return response()->json($this->json, $code);
+    }
+
+    // For Client
+    public function finish($id)
+    {
+        try {
+
+            $taskFor = TaskFor::find($id);
+
+            if(!$taskFor->active) {
+                throw new \Exception("Task is not active");
+            }
+
+            $taskFor->finish = $taskFor->finish;
+            $taskFor->save();
+
+            $this->json['data'] = $taskFor;
+            $this->json['status'] = true;
+
+            $code = 200;
 
         } catch (\Exception $e) {
 
@@ -58,8 +91,31 @@ class TaskForController extends Controller
         return response()->json($this->json, $code);
     }
 
-    public function finish(Request $req)
+    // For Admin
+    public function unactive($id)
     {
+        try {
 
+            $taskFor = TaskFor::find($id);
+            $taskFor->active = 0;
+            $taskFor->save();
+
+            $this->json['data'] = $taskFor;
+            $this->json['status'] = true;
+
+            $code = 200;
+
+        } catch (\Exception $e) {
+
+            $this->json['errors'] = [
+                'main' => $e->getMessage()
+            ];                        
+            $this->json['status'] = false;
+
+            $code = 400;
+
+        }
+
+        return response()->json($this->json, $code);
     }
 }
