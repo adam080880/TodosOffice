@@ -19,16 +19,14 @@ class TaskController extends Controller
         try {
 
             $task = Task::find($id);
-            $taskFor = $task->duties;
-            $usersFor = [];
-
-            foreach($taskFor as $user) {
-                $usersFor[] = $user->user;
+            $duties = $task->duties;
+            
+            foreach($duties as $duty) {
+                $duty->user;
             }
 
             $this->json['data'] = [
-                'task' => $task,
-                'user_for' => $usersFor
+                'task' => $task
             ];
 
             $code = 200;
