@@ -95,4 +95,44 @@ class AuthControllerJWT extends Controller
     {
         return Auth::guard();
     }
+
+    public function put($id, Request $req)
+    {
+        $validated = Validator::make($req->all(), [            
+            'name' => 'required|min:5|max:190',
+            'email' => 'required|min:5|max:190|email|unique:users',            
+        ]);
+
+        if($validated->fails()) {
+            $this->json['data'] = $req->all();
+            $this->json['errors'] = $validated->errors();
+            $this->json['status'] = false;
+
+            return response()->json($this->json);
+        }
+
+        try {
+
+            $user = User::findOrFail($id);
+            $user->name = $req->name;
+            $user->email = $req->email;
+            $user->save();
+
+            $this->json['data'] = $user;
+            
+            $code = 200;
+
+        } catch (\Exception $e) {
+
+            $this->json['errors'] = [
+                'main' => $e->getMessage()
+            ];                        
+            $this->json['status'] = false;
+
+            $code = 400;
+
+        }
+
+        return response()->json($this->json, $code);
+    }
 }

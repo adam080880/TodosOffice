@@ -61,6 +61,11 @@ Route::group(['middleware' => ['cors']], function () {
         // Permission CRUD
         Route::post('permission', 'PermissionController@post');
         Route::post('permission/toggle/{id}', 'PermissionController@toggle');
+
+        // User CRUD  
+        Route::get('users', 'UserController@get');
+        Route::get('user/{id}', 'UserController@find');
+        Route::put('user/change_role/{id}', 'UserController@changeRole');
         
     });
     
