@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 
 // Auth
 Route::group(['middleware' => ['cors']], function () {
-
     Route::post('login', 'AuthControllerJWT@login');
     Route::post('register', 'AuthControllerJWT@register');
 

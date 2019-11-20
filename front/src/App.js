@@ -9,11 +9,13 @@ import {
   Link
 } from 'react-router-dom'
 
+import Login from './page/Login'
+
 function App()
 {
   return (
     <div className="App">
-      
+      <Login/>
     </div>
   );
 }
