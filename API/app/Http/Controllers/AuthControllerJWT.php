@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 use App\User;
 
@@ -61,6 +62,17 @@ class AuthControllerJWT extends Controller
                 'status' => false
             ], 500);
         }
+    }
+
+    public function fixBug()
+    {        
+        return response()->json([
+            'errors' => [
+                'main' => 'Unauthorized'
+            ],
+            'status' => false,
+            'data' => []
+        ], 401);        
     }
 
     public function me()

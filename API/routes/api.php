@@ -26,15 +26,7 @@ header('Access-Control-Allow-Methods:GET, POST, PUT, PATCH, DELETE, OPTIONS');
 Route::post('login', 'AuthControllerJWT@login');
 Route::post('register', 'AuthControllerJWT@register');
 
-Route::get('resFixErrorLaravelBug', function() {
-    return response()->json([
-        'errors' => [
-            'main' => 'Unauthorized'
-        ],
-        'status' => false,
-        'data' => []
-    ], 401);
-})->name('login');
+Route::get('resFixErrorLaravelBug', 'AuthControllerJWT@fixBug')->name('login');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
@@ -45,7 +37,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Task CRUD
     Route::get('task', 'TaskController@get')->middleware('permission:3');                   //GET
     Route::get('task/{id}', 'TaskController@find')->middleware('permission:3');             //FIND
-    Route::post('task', 'TaskController@post')->middleware('permission:1'); //POST
+    Route::post('task', 'TaskController@post')->middleware('permission:1');                 //POST
     Route::put('task/{id}', 'TaskController@put')->middleware('permission:4');              //PUT
     Route::delete('task/{id}', 'TaskController@delete')->middleware('permission:2');        //DELETE
 
