@@ -1,9 +1,5 @@
 <?php
 
-header('Access-Control-Allow-Origin:*');
-header('Access-Control-Allow-Headers:X-PINGOTHER, Content-Type, Authorization, Content-Length, X-Requested-With');
-header('Access-Control-Allow-Methods:GET, POST, PUT, PATCH, DELETE, OPTIONS');
-
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
