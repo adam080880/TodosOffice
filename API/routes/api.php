@@ -54,8 +54,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('role/{id}', 'RoleController@delete')->middleware('permission:6');
 
     // Permission CRUD
-    Route::post('permission', 'PermissionController@post');
-    Route::post('permission/toggle/{id}', 'PermissionController@toggle');
+    Route::post('permission', 'PermissionController@post')->middleware('permission:9');
+    Route::post('permission/toggle/{id}', 'PermissionController@toggle')->middleware('permission:12');
 
     // User CRUD  
     Route::get('users', 'UserController@get');
