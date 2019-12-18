@@ -1,20 +1,22 @@
 import axios from 'axios'
 import Config from './Config'
 
-const Auth = {
-    isAuthenticated: function() {           
+let Auth = {
+    isAuthenticated: function() {         
         if(localStorage.getItem('user')) {
             return true
         } else if(localStorage.getItem('user') === 'undefined') {
             return false
         }
+
+        return false
+
     },
 
-    login: async () => {
-        let data = {}
+    login: async (email, password) => {        
         await axios.post(Config.api('login'), {
-            email: "admin@superadmin.com",
-            password: "password"
+            email: email,
+            password: password
         })
         .then(async (res) => {
             if(res.data === "") {
@@ -24,25 +26,23 @@ const Auth = {
                     token: res.data.token
                 }))                
 
-                await axios.post(Config.api(`me?token=${JSON.parse(localStorage.getItem('user')).token}`))
+                await axios.post(Config.api(`me?token=${this.me().token}`))
                 .then(async (res) => {
-                    let latestToken = JSON.parse(localStorage.getItem('user'))
+                    let latestToken = this.me()
                     let result = res.data
 
-                    result.token = latestToken.token
-                    data = await result
+                    result.token = latestToken.token                    
                     result = JSON.stringify(result)
 
 
                     localStorage.setItem('user', result)                                        
                 })
             }
-        })    
-        return data
+        })            
     },
 
     logout: () => {
-        let token = JSON.parse(localStorage.getItem('user')).token
+        let token = this.me().token
 
         axios.post(Config.api(`logout?token=${token}`))
         .then((res) => {
@@ -51,6 +51,10 @@ const Auth = {
         .catch((rej) => {
             console.log(rej)
         })
+    },
+
+    me: () => {
+        return JSON.parse(localStorage.getItem('user'))
     }
 }
 
